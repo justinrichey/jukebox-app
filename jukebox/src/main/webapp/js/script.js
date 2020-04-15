@@ -15,3 +15,11 @@ function presentPIN() {
     }
     document.getElementById('PIN').textContent = PIN;
 }
+
+function joinGroup(isHost) {
+    if (isHost) {
+        window.location.href = '/room_host.html';
+    } else {
+        window.location.href = '/room_general.html';
+    }
+}
