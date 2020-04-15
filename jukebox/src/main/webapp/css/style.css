@@ -1,0 +1,62 @@
+#logo {
+    font-size: 30px;
+}
+
+body {
+    margin: 0px;
+}
+
+.setup_text {
+    align-content: center;
+    text-align: center;
+}
+
+.index_button {
+    margin: 2em;
+    padding: 1em;
+}
+
+.input_area {
+    align-content: center;
+    text-align: center;
+    padding-top: 2em;
+    padding-bottom: 2em;
+    padding-left: 4em;
+    padding-right: 4em;
+}
+
+.menu {
+    margin: 0;
+    cursor: default;
+}
+.menu .menu_selections{
+    width: 100%;
+    list-style: none;
+    text-align: left;
+    vertical-align: center;
+    padding-left: 0px;
+    border-bottom: 2px solid rgb(138, 11, 22);
+}
+
+.menu .menu_selections .menu_item {
+    display: inline-block;
+    text-align: center;
+    vertical-align: middle;
+    width: 6em;
+    height: 2em;
+    line-height: 2em;
+    padding: 1em;
+    margin: 0px;
+    
+}
+
+.menu .menu_selections .menu_item:hover {
+    background-color: #ffffff15;
+    opacity: 0.7;
+    cursor: pointer;
+}
+
+.menu .menu_selections .menu_item .menu_text {
+    text-decoration: none;
+    color: black;
+}
