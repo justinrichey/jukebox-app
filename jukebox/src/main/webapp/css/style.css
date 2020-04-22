@@ -60,3 +60,38 @@ body {
     text-decoration: none;
     color: black;
 }
+
+.overlay {
+    width: 25%;
+    height: 25%;
+    margin: auto;
+    position: fixed;
+    display: none;
+    align-items: center;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+    background-color: rgba(0,0,0, 0.7);
+}
+
+#overlay_pin {
+  position: relative;
+  display: block;
+  width: 100%;
+  color: whitesmoke;
+  margin: auto;
+}
+
+.overlay .exit_pin {
+    position: absolute;
+    top: 0px;
+    right: 17px;
+    font-size: 55px;
+    padding: 0px;
+    text-decoration: none;
+    color: whitesmoke;
+    display: block;
+}
