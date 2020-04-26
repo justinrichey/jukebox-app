@@ -7,7 +7,6 @@ as apart of the MVP)
 
 //Setting up Firebase configuration
 var firebaseConfig = {
-
     apiKey: "AIzaSyDkEJE1taOS3R_dxakJjMB98I-3Apjuhxk",
     authDomain: "jukebox-sps.firebaseapp.com",
     databaseURL: "https://jukebox-sps.firebaseio.com",
@@ -22,78 +21,128 @@ var firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
 
-//This function sets up the room page, getting the room name based on PIN
-function presentRoom(isHost) {
+//Authenticating the user anonymously
+firebase.auth().signInAnonymously().catch(function(error) {
+    window.location.href = "/auth_error.html"
+})
 
+//This runs when the user's auth state has changed (i.e succesful log in)
+firebase.auth().onAuthStateChanged(function(user) {
+    if (user) {
+        // User is signed in.
+        localStorage['uid'] = user.uid
+    } else {
+        window.location.href = "/auth_error.html"
+    }
+})
+
+//This function is called upon loading the room, used to load data for display
+function displayRoomData() {
+    const queryParameters = new URLSearchParams(window.location.search)
+    const queryPin = queryParameters.get('pin')
+    if(!queryPin) {
+        window.location.href = '/general_error.html'
+    }
+    displayRoomName()
+    document.getElementById("overlay_pin").textContent = queryPin
+}
+
+//This function displays the room name
+//It uses a promise and cannot store values within the promise externally
+function displayRoomName() {
     const queryParameters = new URLSearchParams(window.location.search);
-    const roomRef = db.collection('rooms').doc(queryParameters.get('pin'))
-    //If the a room with the PIN exists, then load its given components
-    roomRef.get().then(function(roomSnapshot) {
+    const queryPin = queryParameters.get('pin')
+    if(!queryPin) {
+        window.location.href = '/general_error.html'
+    }
+    const roomRef = db.collection('rooms').doc(queryPin).get()
+    if(!roomRef) {
+        window.location.href = '/general_error.html'
+    }
+    
+    roomRef.then(function(roomSnapshot) {
         if (roomSnapshot.exists) {
-            var groupName = roomSnapshot.data().name 
-            //Distinguish between host and general user
-            if (isHost) { 
-                document.getElementById('group_name').textContent = roomSnapshot.data().name + " (Host)";
-            } else {
-                document.getElementById('group_name').textContent = roomSnapshot.data().name + " (General)";
-            }
+            document.getElementById("group_name").textContent = roomSnapshot.data().name
         } else {
             window.location.href = "/pin_error.html"
         }
     })
-    document.getElementById("overlay_pin").textContent = queryParameters.get("pin")
+}
+
+//This function navigates the user based on their host status
+//It uses a promise and cannot store values within the promise externally
+function navigateToRoom(isCreatingRoom) {
+    var storedUid = localStorage['uid']
+    var queryPin
+    if (isCreatingRoom) {
+        const queryParameters = new URLSearchParams(window.location.search);
+        queryPin = queryParameters.get('pin')
+    } else {
+        queryPin = document.getElementById('pin').value
+    }
+    if(!queryPin || !storedUid) {
+        window.location.href = '/general_error.html'
+    }
+    const userRef = db.collection('rooms').doc(queryPin).collection('users').doc(storedUid)
+    if(!userRef) {
+        window.location.href = '/general_error.html'
+    }
+    userRef.get().then(function(userSnapshot) {
+        //If the user does not yet exist in the db, then add and redirect them
+        if (!userSnapshot.exists) {
+            db.collection("rooms").doc(queryPin).collection("users").doc(storedUid).set( {
+                isHost: false
+            })
+            window.location.href = '/room_general.html?pin=' + queryPin;
+        } else {
+            //Redirects to host or general page
+            if(userSnapshot.data().isHost) {
+                window.location.href = '/room_host.html?pin=' + queryPin;
+            } else {
+                window.location.href = '/room_general.html?pin=' + queryPin;
+            }
+        }
+    })
 }
 
 //Displays pin on create_pin.html
 function presentPIN() {
-
-    const queryParameters = new URLSearchParams(window.location.search);
-    document.getElementById('PIN').textContent = queryParameters.get('pin');
-}
-
-//Redirects user to their room after entering/creating a PIN
-function joinGroup(isHost) {
-
-    const queryParameters = new URLSearchParams(window.location.search);
-    if (isHost) {
-        window.location.href = '/room_host.html?pin=' + queryParameters.get('pin');;
-    } else {
-        window.location.href = '/room_general.html?pin=' + document.getElementById('pin').value;
+    const queryParameters = new URLSearchParams(window.location.search)
+    var queryPin = queryParameters.get('pin')
+    if(!queryPin) {
+        window.location.href = '/general_error.html'
     }
-}
-
-//Takes in a PIN and returns true if a room with the PIN already exists
-function pinTaken(pinCode) {
-
-    var roomRef = db.collection('rooms').doc(pinCode);
-    var roomExists = false;
-    roomRef.get().then(function(roomSnapshot) {
-            if (roomSnapshot.exists) {
-                roomExists = true;
-            } else {
-                roomExists = false;
-        }
-    })
-    return roomExists;
+    document.getElementById('PIN').textContent = queryPin
 }
 
 //Adds a room to the database
 function createRoom() {
-
     var pinCode = generatePIN();
-    //Ensuring that pinCode is unique and not associated with a room in db
-    while (pinTaken(pinCode)) {
-        pinCode = generatePIN();
+    var storedUid = localStorage['uid']
+    if(!storedUid) {
+        window.location.href = '/general_error.html'
     }
-    db.collection("rooms").doc(pinCode).set( {
-        name: document.getElementById("group_name").value
+    var roomRef = db.collection('rooms').doc(pinCode);
+
+    //Ensuring that pinCode is unique and not associated with a room in db
+    roomRef.get().then(function(roomSnapshot) {
+        if (roomSnapshot.exists) {
+            //If it exists, then try again with a different PIN
+            createRoom()
+        } else {
+            db.collection("rooms").doc(pinCode).set( {
+                name: document.getElementById("group_name").value,
+            })
+            db.collection("rooms").doc(pinCode).collection("users").doc(storedUid).set( {
+                isHost: true
+            })
+            window.location.href = "/create_pin.html?pin=" + pinCode;
+        }
     })
-    window.location.href = "/create_pin.html?pin=" + pinCode;
 }
 
 //Generates a random, alphaNumeric 6-character string
 function generatePIN() {
-
     var alphaNumeric = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
     var pinCode = "";
     for (var i = 0; i < 6; i++) {

@@ -3,7 +3,9 @@
         <meta charset="UTF-8">
         <title>Name</title>
         <link rel="stylesheet" href="/css/style.css">
-        <script src="/js/script.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
     </head>
     <body>
         
@@ -20,11 +22,13 @@
         
         <h3 class="setup_text">Enter your group's code</h3>
         <div class="input_area">
-            <input type="text" id="pin">
+            <input type="text" id="pin" style="text-transform:uppercase" maxlength="6" 
+                oninput="this.value = this.value.toUpperCase()">
             <br>
-            <button class="index_button" onclick="joinGroup(false)">Join</button>
+            <button class="index_button" onclick="navigateToRoom(false)">Join</button>
             <br>
             <button class="index_button" onclick="window.location.href='/index.html'">Cancel</button>
         </div>
+        <script src="/js/script.js"></script>
     </body>
 </html>
