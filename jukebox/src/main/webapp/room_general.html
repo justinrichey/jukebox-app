@@ -3,9 +3,11 @@
         <meta charset="UTF-8">
         <title>Name</title>
         <link rel="stylesheet" href="/css/style.css">
-        <script src="/js/script.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script> 
     </head>
-    <body>
+    <body onload="displayRoomData()">
+        
         <nav class ="menu">
             <ul class = "menu_selections">
                 <li class = "menu_item">
@@ -19,12 +21,17 @@
                     <a class="menu_text" href="/add_song.html">Add a Song</a>
                 </li>
                 <li class = "menu_item">
-                    <a class="menu_text" href="/view_pin.html">View PIN</a>
+                    <a class="menu_text" onclick="viewPin()">View PIN</a>
                 </li>
 	    	</ul>
         </nav>
+
+        <div id="view_pin" class="overlay">
+            <a href="javascript:void(0)" class="exit_pin" onclick="closePin()">&times;</a>
+            <h2 id="overlay_pin"></h2>
+        </div>
         
-        <h3 class="setup_text">This is a general room.</h3>
-        
+        <h3 id="group_name" class="setup_text"></h3>
+        <script src="/js/script.js"></script>
     </body>
 </html>
