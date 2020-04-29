@@ -1,5 +1,8 @@
 var API_KEY = "AIzaSyBTz_m7PhhcCWy1RxbMb1O24ItNAoRN6S0";
 
+
+gapi.load("client:auth2", function() { });
+
 //Load API
 function loadClient() {
 gapi.client.setApiKey(API_KEY);

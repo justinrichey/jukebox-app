@@ -5,7 +5,7 @@
         <link rel="stylesheet" href="/css/style.css">
         <script src="/js/script.js"></script>
     </head>
-    <body>
+    <body onload="loadClient(); load_song(false); displayRoomData()">
         <nav class ="menu">
             <ul class = "menu_selections">
                 <li class = "menu_item">
@@ -24,6 +24,13 @@
         </nav>
         
         <h3 class="setup_text">This is a host room.</h3>
-        
+        <h3 id="group_name" class="setup_text"></h3>
+
+        <div style="text-align:center">
+            <h3  id="display_container"></h3> 
+            <div id="player"></div>
+        </div>
+
+        <script src="/js/script.js"></script>
     </body>
 </html>

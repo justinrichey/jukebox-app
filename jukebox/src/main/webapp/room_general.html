@@ -7,14 +7,11 @@
         <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
         <script src="https://apis.google.com/js/api.js"></script>
         <script src="/js/dbScript.js"></script>
-        <script src="/js/room_general.js"></script>
-        <script> 
-            gapi.load("client:auth2", function() {
-            });
-            console.log("Loaded");
-        </script>
+        <script src="/js/gapiScript.js"></script>
+        <script src="/js/youtubePlayerScript.js"></script>
     </head>
-    <body onload="loadClient(); load_song()">
+    <body onload="loadClient(); load_song(false); displayRoomData()">
+        
         <nav class ="menu">
             <ul class = "menu_selections">
                 <li class = "menu_item">
@@ -37,5 +34,14 @@
         <button style="text-align:center" onclick="curr_vid()">Click to start</button>
         <div style="text-align:center" id="display_container"></div>
         
+        <h3 id="group_name" class="setup_text"></h3>
+
+        <div style="text-align:center">
+            <h3  id="display_container"></h3> 
+            <div id="player"></div>
+        </div>
+
+
+        <script src="/js/script.js"></script>
     </body>
 </html>
