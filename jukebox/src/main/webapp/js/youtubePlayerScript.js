@@ -6,7 +6,8 @@
     firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
 
     var player;
-    
+    var display_container = document.getElementById("display_container");
+
     //Finds the youtube video and creates an iframe
     function getYouTube(vidID, nextSong) {
         //Case where there are no videos

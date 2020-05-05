@@ -12,16 +12,3 @@ gapi.client.setApiKey(API_KEY);
     
 
 }
-
-// function start_queue(){
-//     //display video
-//     const room_ID = 1; //parse thru url later, hardcoded for now
-//     var display_container = document.getElementById("display_container");
-//     curr_vid(room_ID).then( function(song) {
-//     console.log(song);
-//     var display =` 
-//         <iframe width="420" height="315"src="https://www.youtube.com/embed/${song}"></iframe>
-//     `;
-//     display_container.innerHTML = display;// curr_vid(room_ID);
-//     });
-// }

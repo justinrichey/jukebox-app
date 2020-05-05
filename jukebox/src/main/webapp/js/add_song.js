@@ -10,10 +10,9 @@ function addSong(song, title){
 // Displays a list of videos resulting from search
 function displayVideos(videos){
     //parse through data, create a list with the title being clickable leading to youtube video, and a button
-    var video_container = document.getElementById("video_container");
+    var result_container = document.getElementById("result_container");
     if(videos.length > 0){
         let output = `<h4>Search Results</h4>`;
-
         //Loop through videos and append to output
         videos.forEach(vid =>{
             const vid_title = vid.snippet.title;
@@ -26,9 +25,9 @@ function displayVideos(videos){
                 </div>
             `;
         })
-        video_container.innerHTML = output;
+        result_container.innerHTML = output;
     } else {
-        video_container.innerHTML = `No Videos Found`;
+        result_container.innerHTML = `No Videos Found`;
     }
 }
 
@@ -41,7 +40,8 @@ function search_execute(){
     return gapi.client.youtube.search.list({
       "part": "snippet",
       "maxResults": videos_displayed,
-      "q": search_term
+      "q": search_term,
+      "type": "video"
     })
         .then(function(response) {
                 // Handle the results here (response.result has the parsed body).

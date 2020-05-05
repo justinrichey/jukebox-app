@@ -1,18 +1,28 @@
-function generateGroup() {
+/**
+This file contains all database reads/writes as well some minor webpage
+modifications. It's most likely not secure to have the database available
+on the client-side, so this set-up is temporary (although will likely remain
+as apart of the MVP)
+ */
 
-    //send to server once database schema decided
-    var groupName = document.getElementById('group_name').value;
-    window.location.href = '/create_pin.html';
+//Setting up Firebase configuration
+var firebaseConfig = {
+    apiKey: "AIzaSyDkEJE1taOS3R_dxakJjMB98I-3Apjuhxk",
+    authDomain: "jukebox-sps.firebaseapp.com",
+    databaseURL: "https://jukebox-sps.firebaseio.com",
+    projectId: "jukebox-sps",
+    storageBucket: "jukebox-sps.appspot.com",
+    messagingSenderId: "729977109157",
+    appId: "1:729977109157:web:0f47881639cc145866ab4c",
+    measurementId: "G-9M791HTW5T"
 }
 
 // Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 var db = firebase.firestore();
-var dbAuth = firebase.auth();
 
-// Authenticating the user anonymously
+//Authenticating the user anonymously
 firebase.auth().signInAnonymously().catch(function(error) {
-    console.log("Error authenticating")
     window.location.href = "/auth_error.html"
 })
 
@@ -21,10 +31,7 @@ firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         // User is signed in.
         localStorage['uid'] = user.uid
-    } else {
-        console.log("error no user")
-        window.location.href = "/auth_error.html"
-    }
+    } 
 })
 
 //This function is called upon loading the room, used to load data for display
@@ -55,35 +62,31 @@ function displayRoomName() {
         if (roomSnapshot.exists) {
             document.getElementById("group_name").textContent = roomSnapshot.data().name
         } else {
+            console.log("no snapshot")
             window.location.href = "/pin_error.html"
         }
     })
 }
 
-function getPin(){
-    const queryParameters = new URLSearchParams(window.location.search);
-    queryPin = queryParameters.get('pin');
-    return queryPin;
-}
-
-
 //This function navigates the user based on their host status
 //It uses a promise and cannot store values within the promise externally
 function navigateToRoom(isCreatingRoom) {
     var storedUid = localStorage['uid']
-    var queryPin
+    var queryPin;
     if (isCreatingRoom) {
         const queryParameters = new URLSearchParams(window.location.search);
         queryPin = queryParameters.get('pin')
     } else {
         queryPin = document.getElementById('pin').value
     }
+
     if(!queryPin || !storedUid) {
         window.location.href = '/general_error.html'
     }
     const userRef = db.collection('rooms').doc(queryPin).collection('users').doc(storedUid)
     if(!userRef) {
-        window.location.href = '/general_error.html'
+        console.log("no userref")
+        // window.location.href = '/general_error.html'
     }
     userRef.get().then(function(userSnapshot) {
         //If the user does not yet exist in the db, then add and redirect them
@@ -105,20 +108,72 @@ function navigateToRoom(isCreatingRoom) {
 
 //Displays pin on create_pin.html
 function presentPIN() {
-    
-    //Eventually put this on java serverside code once database schema decided
-    var alphaNumeric = '0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    var PIN = '';
-    for(var i = 0; i < 6; i++) {
-        PIN += alphaNumeric[Math.floor(Math.random() * alphaNumeric.length)];
+    const queryParameters = new URLSearchParams(window.location.search)
+    var queryPin = queryParameters.get('pin')
+    if(!queryPin) {
+        console.log("no querypin")
+        // window.location.href = '/general_error.html'
     }
-    document.getElementById('PIN').textContent = PIN;
+    document.getElementById('PIN').textContent = queryPin
 }
 
-function joinGroup(isHost) {
-    if (isHost) {
-        window.location.href = '/room_host.html';
-    } else {
-        window.location.href = '/room_general.html';
+//Adds a room to the database
+function createRoom() {
+    var pinCode = generatePIN();
+    var storedUid = localStorage['uid']
+    if(!storedUid) {
+        console.log("no UID")
+        // window.location.href = '/general_error.html'
     }
+    var roomRef = db.collection('rooms').doc(pinCode);
+
+    //Ensuring that pinCode is unique and not associated with a room in db
+    roomRef.get().then(function(roomSnapshot) {
+        if (roomSnapshot.exists) {
+            //If it exists, then try again with a different PIN
+            console.log(roomSnapshot);
+
+            createRoom();
+        } else {
+            console.log("made " + pinCode);
+            db.collection("rooms").doc(pinCode).set( {
+                name: document.getElementById("group_name").value,
+            })
+            db.collection("rooms").doc(pinCode).collection("users").doc(storedUid).set( {
+                isHost: true
+            })
+            window.location.href = "/create_pin.html?pin=" + pinCode;
+        }
+    })
+}
+
+//Generates a random, alphaNumeric 6-character string
+function generatePIN() {
+    var alphaNumeric = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    var pinCode = "";
+    for (var i = 0; i < 6; i++) {
+        pinCode += alphaNumeric[Math.floor(Math.random() * alphaNumeric.length)];
+    }
+    return pinCode;
+}
+
+//For the pin display overlay (View Pin in the navbar)
+function viewPin() {
+    document.getElementById("view_pin").style.display = "flex";
+}
+
+function closePin() {
+    document.getElementById("view_pin").style.display = "none";
+}
+
+function getPin(){
+    const queryParameters = new URLSearchParams(window.location.search);
+    const queryPin = queryParameters.get('pin');
+    return queryPin;
+}
+
+
+function addSong(){
+    var pinCode = getPin();
+    window.location.href = "/add_song.html?pin=" + pinCode; //check if host or not
 }

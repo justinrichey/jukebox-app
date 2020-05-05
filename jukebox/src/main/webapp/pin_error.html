@@ -4,10 +4,11 @@
         <title>Name</title>
         <link rel="stylesheet" href="/css/style.css">
         <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script> 
         <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
     </head>
-    <body onload="presentPIN()">
+    <body onload="displayRoomData()">
+
         <nav class ="menu">
             <ul class = "menu_selections">
                 <li class = "menu_item">
@@ -19,16 +20,7 @@
 	    	</ul>
         </nav>
         
-        <h3 class="setup_text">You just made your group! 
-            Here's your pin, send it to your friends so that they can add songs.</h3>
-        <div class="input_area">
-            <h2 id="PIN"></h2>
-            <br>
-            <button class="index_button" onclick="navigateToRoom(true)">OK</button>
-            <br>
-            <button class="index_button" onclick="window.location.href='/index.html'">Cancel</button>
-        </div>
-
+        <h3 class="setup_text">Oh no! It looks like this room doesn't exist.</h3>
         <script src="/js/script.js"></script>
     </body>
 </html>
