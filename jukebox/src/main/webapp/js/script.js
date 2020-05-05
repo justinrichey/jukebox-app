@@ -32,10 +32,10 @@ firebase.auth().onAuthStateChanged(function(user) {
         // User is signed in.
         localStorage['uid'] = user.uid
     } 
-})
+  })
 
-//This function is called upon loading the room, used to load data for display
-function displayRoomData() {
+  //This function is called upon loading the room, used to load data for display
+  function displayRoomData() {
     const queryParameters = new URLSearchParams(window.location.search)
     const queryPin = queryParameters.get('pin')
     if(!queryPin) {
@@ -43,11 +43,11 @@ function displayRoomData() {
     }
     displayRoomName()
     document.getElementById("overlay_pin").textContent = queryPin
-}
+  }
 
-//This function displays the room name
-//It uses a promise and cannot store values within the promise externally
-function displayRoomName() {
+  //This function displays the room name
+  //It uses a promise and cannot store values within the promise externally
+  function displayRoomName() {
     const queryParameters = new URLSearchParams(window.location.search);
     const queryPin = queryParameters.get('pin')
     if(!queryPin) {
@@ -62,31 +62,28 @@ function displayRoomName() {
         if (roomSnapshot.exists) {
             document.getElementById("group_name").textContent = roomSnapshot.data().name
         } else {
-            console.log("no snapshot")
             window.location.href = "/pin_error.html"
         }
     })
-}
+  }
 
 //This function navigates the user based on their host status
 //It uses a promise and cannot store values within the promise externally
 function navigateToRoom(isCreatingRoom) {
     var storedUid = localStorage['uid']
-    var queryPin;
+    var queryPin
     if (isCreatingRoom) {
         const queryParameters = new URLSearchParams(window.location.search);
         queryPin = queryParameters.get('pin')
     } else {
         queryPin = document.getElementById('pin').value
     }
-
     if(!queryPin || !storedUid) {
         window.location.href = '/general_error.html'
     }
     const userRef = db.collection('rooms').doc(queryPin).collection('users').doc(storedUid)
     if(!userRef) {
-        console.log("no userref")
-        // window.location.href = '/general_error.html'
+        window.location.href = '/general_error.html'
     }
     userRef.get().then(function(userSnapshot) {
         //If the user does not yet exist in the db, then add and redirect them
@@ -111,8 +108,7 @@ function presentPIN() {
     const queryParameters = new URLSearchParams(window.location.search)
     var queryPin = queryParameters.get('pin')
     if(!queryPin) {
-        console.log("no querypin")
-        // window.location.href = '/general_error.html'
+        window.location.href = '/general_error.html'
     }
     document.getElementById('PIN').textContent = queryPin
 }
@@ -122,8 +118,7 @@ function createRoom() {
     var pinCode = generatePIN();
     var storedUid = localStorage['uid']
     if(!storedUid) {
-        console.log("no UID")
-        // window.location.href = '/general_error.html'
+        window.location.href = '/general_error.html'
     }
     var roomRef = db.collection('rooms').doc(pinCode);
 
@@ -131,11 +126,8 @@ function createRoom() {
     roomRef.get().then(function(roomSnapshot) {
         if (roomSnapshot.exists) {
             //If it exists, then try again with a different PIN
-            console.log(roomSnapshot);
-
-            createRoom();
+            createRoom()
         } else {
-            console.log("made " + pinCode);
             db.collection("rooms").doc(pinCode).set( {
                 name: document.getElementById("group_name").value,
             })
@@ -172,8 +164,8 @@ function getPin(){
     return queryPin;
 }
 
-
 function addSong(){
     var pinCode = getPin();
     window.location.href = "/add_song.html?pin=" + pinCode; //check if host or not
 }
+
