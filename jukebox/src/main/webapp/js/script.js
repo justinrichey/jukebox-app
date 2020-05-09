@@ -164,7 +164,7 @@ function getPin(){
     return queryPin;
 }
 
-function addSong(){
+function gotoAddSong(){
     var pinCode = getPin();
     window.location.href = "/add_song.html?pin=" + pinCode; //check if host or not
 }

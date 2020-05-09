@@ -1,11 +1,6 @@
 var CLIENT_ID = "2440856049-ga26c9i6ijv84jsedvc0ddsqi1bk1ftd.apps.googleusercontent.com";
 var API_KEY = "AIzaSyBTz_m7PhhcCWy1RxbMb1O24ItNAoRN6S0";
 
-//Calls on the database to add a song
-function addSong(song, title){
-    const ROOM_ID = getPin();
-    addSongDB(song, title,ROOM_ID); //in dbScript.js
-}
 
 // Displays a list of videos resulting from search
 function displayVideos(videos){
@@ -15,13 +10,13 @@ function displayVideos(videos){
         let output = `<h4>Search Results</h4>`;
         //Loop through videos and append to output
         videos.forEach(vid =>{
-            const vid_title = vid.snippet.title;
+            const vid_title = checkSpecial(vid.snippet.title);
             const vid_ID = vid.id.videoId;
             //TODO - Update to ul/li in the future to clean design, button onclick does not work(maybe use ids and send val from id in addSong)
             output += `
                 <div>
-                    <a href=https://www.youtube.com/watch?v=${vid_ID}>${vid_title}</a>
-                    <button type="button" onclick="addSong('${vid_ID}', '${vid_title}')">Add Song to Queue</button>
+                    <a href=https://www.youtube.com/watch?v=${vid_ID}>${vid.snippet.title}</a>
+                    <button type="button" onclick="addSongToDB('${vid_ID}', '${vid_title}')">Add Song to Queue</button>
                 </div>
             `;
         })
@@ -29,6 +24,20 @@ function displayVideos(videos){
     } else {
         result_container.innerHTML = `No Videos Found`;
     }
+}
+
+//Checks for special characters, if so, adds a backslash before
+function checkSpecial(givenTitle){
+    for(var index = 0; index < givenTitle.length;){
+        var indexLoc = givenTitle.indexOf("&#39;", index);
+        if(indexLoc == -1)
+            break;
+        console.log("contains \' at " + indexLoc);
+        givenTitle = givenTitle.substring(0, indexLoc) + "\\" + givenTitle.substring(indexLoc, givenTitle.length);
+        index += (indexLoc - index) + 2;
+        console.log("next starting " + index);
+    } 
+    return givenTitle;
 }
 
 //Search YouTube API for specified term

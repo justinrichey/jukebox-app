@@ -8,7 +8,7 @@
         <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
         <script src="https://apis.google.com/js/api.js"></script>
     </head>
-    <body onload="loadClient(); load_song(false); displayRoomData()">
+    <body onload="loadClient(); displayRoomData()">
         
         <nav class ="menu">
             <ul class = "menu_selections">
@@ -20,7 +20,7 @@
                 </li>
 
                 <li class = "menu_item">
-                    <a class="menu_text" onclick="addSong()">Add a Song</a>
+                    <a class="menu_text" onclick="gotoAddSong()">Add a Song</a>
                 </li>
                 <li class = "menu_item">
                     <a class="menu_text" onclick="viewPin()">View PIN</a>
@@ -36,12 +36,16 @@
         
         <h3 id="group_name" class="setup_text"></h3>
 
-        <div style="text-align:center">
+        <!-- 
+            We do not want to display anything for the general room
+            <div style="text-align:center">
             <h3  id="display_container"></h3> 
             <div id="player"></div>
             <br>
             <button onclick="next_song()">Next Song</button>
-        </div>
+
+        </div> -->
+
         <script src="/js/script.js"></script>
         <script src="/js/dbScript.js"></script>
         <script src="/js/gapiScript.js"></script>
