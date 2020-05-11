@@ -31,8 +31,6 @@ firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         // User is signed in.
         localStorage['uid'] = user.uid
-    } else {
-        window.location.href = "/auth_error.html"
     }
 })
 
@@ -133,10 +131,14 @@ function createRoom() {
             db.collection("rooms").doc(pinCode).set( {
                 name: document.getElementById("group_name").value,
             })
-            db.collection("rooms").doc(pinCode).collection("users").doc(storedUid).set( {
-                isHost: true
+            .then(function (groupCreatedRef) {
+                db.collection("rooms").doc(pinCode).collection("users").doc(storedUid).set( {
+                    isHost: true
+                })
+                .then(function(userAddedRef) {
+                    window.location.href = "/create_pin.html?pin=" + pinCode;
+                })
             })
-            window.location.href = "/create_pin.html?pin=" + pinCode;
         }
     })
 }

@@ -1,18 +1,20 @@
 <html>
     <head>
         <meta charset="UTF-8">
-        <title>Name</title>
+        <title>QBOX</title>
         <link rel="stylesheet" href="/css/style.css">
-        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-auth.js"></script>
+        
+        <link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@700&display=swap" rel="stylesheet">
     </head>
     <body>
 
         <nav class ="menu">
             <ul class = "menu_selections">
                 <li class = "menu_item">
-                    <a class="menu_text" id="logo" href="/index.html">Name</a>
+                    <a class="menu_text" id="logo" href="/index.html">QBOX</a>
                 </li>
                 <li class = "menu_item">
                     <a class="menu_text" href="/how_it_works.html">How it works</a>
@@ -20,12 +22,15 @@
 	    	</ul>
         </nav>
         
-        <h3 class="setup_text">Hello! Do you want to join or create a group?</h3>
+        
         <div class="input_area">
-            <button class="index_button" onclick="window.location.href='/join_pin.html'">Join</button>
+            <h3 class="setup_text">Welcome to <b>QBOX</b>! <br> Do you want to join or create a group?</h3>
+            <button class="index_button" onclick="window.location.href='/join_pin.html'">
+            <span style="font-size:1.5em; color:#FFFFFF; font-weight: bold;">Join</span></button>
             <br>
-            <button class="index_button" onclick="window.location.href='/create_name.html'">Create</button>
+            <button class="index_button" onclick="window.location.href='/create_name.html'">
+            <span style="font-size:1.5em; color:#FFFFFF; font-weight: bold">Create</span></button>
         </div>
-        <script src="/js/script.js"></script>
+        <script defer src="/js/script.js"></script>
     </body>
 </html>
