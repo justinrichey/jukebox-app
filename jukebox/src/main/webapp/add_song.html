@@ -1,0 +1,39 @@
+
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>JukeBox! 🐈</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    
+  </head>
+  <body onload="loadClient()">
+    <nav class ="menu">
+            <ul class = "menu_selections">
+                <li class = "menu_item">
+                    <a class="menu_text" id="logo" href="/index.html">Name</a>
+                </li>
+                <li class = "menu_item">
+                    <a class="menu_text" href="/how_it_works.html">How it works</a>
+                </li>
+	    	</ul>
+    </nav>
+    <divclass="setup_text">Add a song!</div>
+
+    <input id="search_term"></input>
+
+    <button type="button" onclick="search_execute()">Search!</button>
+    <button onclick="navigateToRoom(true)">Back</button>
+    <div id="result_container"></div>
+    <script src="js/script.js"></script>
+    <script src="js/dbScript.js"></script>
+    <script src="js/gapiScript.js"></script>
+    <script src="js/add_song.js"></script>
+    
+  </body>
+</html>
