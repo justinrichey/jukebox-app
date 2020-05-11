@@ -4,9 +4,11 @@
         <title>Name</title>
         <link rel="stylesheet" href="/css/style.css">
         <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script> 
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+        <script src="https://apis.google.com/js/api.js"></script>
     </head>
-    <body onload="displayRoomData()">
+    <body onload="loadClient(); displayRoomData()">
         
         <nav class ="menu">
             <ul class = "menu_selections">
@@ -18,7 +20,7 @@
                 </li>
 
                 <li class = "menu_item">
-                    <a class="menu_text" href="/add_song.html">Add a Song</a>
+                    <a class="menu_text" onclick="gotoAddSong()">Add a Song</a>
                 </li>
                 <li class = "menu_item">
                     <a class="menu_text" onclick="viewPin()">View PIN</a>
@@ -30,8 +32,23 @@
             <a href="javascript:void(0)" class="exit_pin" onclick="closePin()">&times;</a>
             <h2 id="overlay_pin"></h2>
         </div>
+        <h3 class="setup_text">This is a general room.</h3>
         
         <h3 id="group_name" class="setup_text"></h3>
+
+        <!-- 
+            We do not want to display anything for the general room
+            <div style="text-align:center">
+            <h3  id="display_container"></h3> 
+            <div id="player"></div>
+            <br>
+            <button onclick="next_song()">Next Song</button>
+
+        </div> -->
+
         <script src="/js/script.js"></script>
+        <script src="/js/dbScript.js"></script>
+        <script src="/js/gapiScript.js"></script>
+        <script src="/js/youtubePlayerScript.js"></script>
     </body>
 </html>

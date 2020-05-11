@@ -31,13 +31,11 @@ firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         // User is signed in.
         localStorage['uid'] = user.uid
-    } else {
-        window.location.href = "/auth_error.html"
-    }
-})
+    } 
+  })
 
-//This function is called upon loading the room, used to load data for display
-function displayRoomData() {
+  //This function is called upon loading the room, used to load data for display
+  function displayRoomData() {
     const queryParameters = new URLSearchParams(window.location.search)
     const queryPin = queryParameters.get('pin')
     if(!queryPin) {
@@ -45,11 +43,11 @@ function displayRoomData() {
     }
     displayRoomName()
     document.getElementById("overlay_pin").textContent = queryPin
-}
+  }
 
-//This function displays the room name
-//It uses a promise and cannot store values within the promise externally
-function displayRoomName() {
+  //This function displays the room name
+  //It uses a promise and cannot store values within the promise externally
+  function displayRoomName() {
     const queryParameters = new URLSearchParams(window.location.search);
     const queryPin = queryParameters.get('pin')
     if(!queryPin) {
@@ -67,7 +65,7 @@ function displayRoomName() {
             window.location.href = "/pin_error.html"
         }
     })
-}
+  }
 
 //This function navigates the user based on their host status
 //It uses a promise and cannot store values within the promise externally
@@ -159,3 +157,15 @@ function viewPin() {
 function closePin() {
     document.getElementById("view_pin").style.display = "none";
 }
+
+function getPin(){
+    const queryParameters = new URLSearchParams(window.location.search);
+    const queryPin = queryParameters.get('pin');
+    return queryPin;
+}
+
+function gotoAddSong(){
+    var pinCode = getPin();
+    window.location.href = "/add_song.html?pin=" + pinCode; //check if host or not
+}
+
