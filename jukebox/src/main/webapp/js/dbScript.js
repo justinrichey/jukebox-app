@@ -56,11 +56,10 @@ function load_song(getNextSong){
     .get()
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
-            //Right before playing, delete the row to show that the songs is no longer queued
+            //Right before playing, delete the row to show that the song is no longer queued
             deleteRow(doc.data().QUEUE_INDEX);
             vidId = doc.data().SONG_ID;
         });
-        
         getYouTube(vidId, getNextSong);
     })
     .catch(function(error) {

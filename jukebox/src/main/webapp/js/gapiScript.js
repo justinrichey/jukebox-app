@@ -1,6 +1,5 @@
 var API_KEY = "hidden";
 
-
 gapi.load("client:auth2", function() { });
 
 //Load API

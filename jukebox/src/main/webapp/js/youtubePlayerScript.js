@@ -7,7 +7,7 @@
 
     var player;
     var display_container = document.getElementById("display_container");
-    var isNoVideo = true; //Keeps track of whether video is playing; ignores user pauses
+    var isVideoPlaying = true; //Keeps track of whether video is playing; ignores user pauses
 
     //Finds the youtube video and creates an iframe
     function getYouTube(vidID, nextSong) {
@@ -18,14 +18,15 @@
             if (player) {
                 stopVideo();
             }
-            isNoVideo = true;
+            isVideoPlaying = false;
             return;
         }
-        isNoVideo = false;
+        isVideoPlaying = true;
+        display_container.textContent = `Currently Playing...`;
         //New song, so create a new iframe
         if(!nextSong){
             console.log("test"+ vidID);
-            display_container.textContent = `Currently Playing...`;
+            
             player = new YT.Player('player', {
                 height: '390',
                 width: '640',

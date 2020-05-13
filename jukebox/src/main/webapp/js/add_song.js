@@ -5,6 +5,9 @@ var API_KEY = "hidden";
 function displayVideos(videos){
     //parse through data, create a list with the title being clickable leading to youtube video, and a button
     var result_container = document.getElementById("result_container");
+    //Must create and replace tbody if user does multiple searches
+    var oldResultTbody = document.getElementById("result_tbody");
+    var newResultTbody = document.createElement('tbody');
     if(videos.length > 0){
         //Loop through videos and append to output
         videos.forEach(vid =>{
@@ -12,7 +15,7 @@ function displayVideos(videos){
             const vid_thumbnail = vid.snippet.thumbnails.default.url;
             const vid_ID = vid.id.videoId;
 
-            var newRow = document.getElementById("result_table").insertRow();
+            var newRow = newResultTbody.insertRow();
             var tableSongName = newRow.insertCell(0);
             var tableSongThumbnail = newRow.insertCell(1);
             var tableAddButton = newRow.insertCell(2);
@@ -23,6 +26,8 @@ function displayVideos(videos){
                 `<button type="button" onclick="addSongToDB('${vid_ID}', '${vid_title}', '${vid_thumbnail}')" 
                 class="add_button">+</button>`;
         })
+        oldResultTbody.parentNode.replaceChild(newResultTbody, oldResultTbody);
+        newResultTbody.id = "result_tbody";
     } else {
         result_container.innerHTML = `No Videos Found`;
     }
