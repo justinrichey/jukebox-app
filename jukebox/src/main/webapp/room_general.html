@@ -34,7 +34,6 @@
             <a href="javascript:void(0)" class="exit_pin" onclick="closePin()">&times;</a>
             <h2 id="overlay_pin"></h2>
         </div>
-        <h3 class="setup_text">This is a general room.</h3>
         
         <h3 id="group_name" class="setup_text"></h3>
 
@@ -47,10 +46,24 @@
             <button onclick="next_song()">Next Song</button>
 
         </div> -->
+        <table id ="song_table">
+        <thead>
+            <tr>
+                <th class="table_header" style="text-align:left;">Songs on Queue</th>
+                <th></th>
+                <th class="table_header">Remove</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            </tr>
+        </tbody>
+        </table>
 
         <script src="/js/script.js"></script>
         <script src="/js/dbScript.js"></script>
         <script src="/js/gapiScript.js"></script>
         <script src="/js/youtubePlayerScript.js"></script>
+        <script src="/js/realtimeUpdateQueue.js"></script>
     </body>
 </html>

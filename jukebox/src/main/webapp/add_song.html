@@ -1,35 +1,69 @@
-
-
-<!DOCTYPE html>
 <html>
   <head>
     <meta charset="UTF-8">
-    <title>JukeBox! 🐈</title>
+    <title>QBOX 🐈</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
     <script src="https://apis.google.com/js/api.js"></script>
     
   </head>
-  <body onload="loadClient()">
+  <body onload="loadClient(); initializePinOverlay()">
     <nav class ="menu">
-            <ul class = "menu_selections">
-                <li class = "menu_item">
-                    <a class="menu_text" id="logo" href="/index.html">Name</a>
-                </li>
-                <li class = "menu_item">
-                    <a class="menu_text" href="/how_it_works.html">How it works</a>
-                </li>
-	    	</ul>
+        <ul class = "menu_selections">
+            <li class = "menu_item">
+                <a class="menu_text" id="logo" href="/index.html">QBOX</a>
+            </li>
+            <li class = "menu_item">
+                <a class="menu_text" href="/how_it_works.html">How it works</a>
+            </li>
+
+            <li class = "menu_item">
+                <a class="menu_text" onclick="gotoAddSong()">Add a Song</a>
+            </li>
+            <li class = "menu_item">
+                <a class="menu_text" onclick="viewPin()">View PIN</a>
+            </li>
+        </ul>
     </nav>
-    <divclass="setup_text">Add a song!</div>
 
-    <input id="search_term"></input>
+    <button onclick="navigateToRoom(true)" id="back_button">
+        <span style="font-size:1.5em; color:#FFFFFF; font-weight: bold">Back to my room</span>
+    </button>
 
-    <button type="button" onclick="search_execute()">Search!</button>
-    <button onclick="navigateToRoom(true)">Back</button>
+    <div class="input_area" id="search_input">
+        <p class="setup_text" id="add_song_text">Add a song!</p>
+        <form class="example" onsubmit="return false;">
+            <input type="text" placeholder="Search..." id="search_term">
+            <button type="submit" onclick ="search_execute()" id="search_button">
+                <img src="/images/searchsymbol.png" height="20" width="20" 
+                style="filter: invert(17%) sepia(13%) saturate(320%) hue-rotate(190deg) brightness(89%) contrast(83%);">
+            </button>
+        </form>
+        <br>
+    </div>
+
     <div id="result_container"></div>
+    <table id="result_table">
+        <thead>
+            <tr>
+                <th class="table_header" style="text-align:left;">Songs</th>
+                <th></th>
+                <th class="table_header">Add to Queue</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="view_pin" class="overlay">
+        <a href="javascript:void(0)" class="exit_pin" onclick="closePin()">&times;</a>
+        <h2 id="overlay_pin"></h2>
+    </div>
     <script src="js/script.js"></script>
     <script src="js/dbScript.js"></script>
     <script src="js/gapiScript.js"></script>

@@ -13,7 +13,7 @@ function incrIndex(){
 }   
 
 //Adds a song to the queue
-async function addSongToDB(song_ID, title) {
+async function addSongToDB(song_ID, title, thumbnailUrl) {
     const room_ID = getPin();
     var currQueue = db.collection('rooms').doc(room_ID).collection("queue");
     var queueIndex = -1;
@@ -33,7 +33,8 @@ async function addSongToDB(song_ID, title) {
             });
         } else {
             db.collection("songs").doc(song_ID).set( {
-                SONG_NAME: title
+                SONG_NAME: title,
+                THUMBNAIL_URL: thumbnailUrl
             });
             currQueue.doc(song_ID).set({
                 SONG_ID: song_ID,
@@ -55,8 +56,11 @@ function load_song(getNextSong){
     .get()
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
+            //Right before playing, delete the row to show that the songs is no longer queued
+            deleteRow(doc.data().QUEUE_INDEX);
             vidId = doc.data().SONG_ID;
         });
+        
         getYouTube(vidId, getNextSong);
     })
     .catch(function(error) {
@@ -82,11 +86,17 @@ function next_song(){
             }).catch(function(error) {
                 console.error("Error removing document: ", error);
             });
-            
-            
         });
     })
     .catch(function(error) {
+        console.log("Error getting documents: ", error);
+    });
+}
+
+function removeSong(songID) {
+    db.collection('rooms').doc(getPin()).collection('queue').doc(songID).delete().then(function (querySnapshot) {
+        console.log("Document successfully deleted!");   
+    }).catch(function(error) {
         console.log("Error getting documents: ", error);
     });
 }

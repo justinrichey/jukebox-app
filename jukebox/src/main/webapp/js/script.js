@@ -34,20 +34,26 @@ firebase.auth().onAuthStateChanged(function(user) {
     }
 })
 
-  //This function is called upon loading the room, used to load data for display
-  function displayRoomData() {
+//This function is called upon loading the room, used to load data for display
+function displayRoomData() {
     const queryParameters = new URLSearchParams(window.location.search)
     const queryPin = queryParameters.get('pin')
     if(!queryPin) {
         window.location.href = '/general_error.html'
     }
     displayRoomName()
-    document.getElementById("overlay_pin").textContent = queryPin
-  }
+    initializePinOverlay()
+}
 
-  //This function displays the room name
-  //It uses a promise and cannot store values within the promise externally
-  function displayRoomName() {
+function initializePinOverlay() {
+    const queryParameters = new URLSearchParams(window.location.search)
+    document.getElementById("overlay_pin").textContent = 
+        (new URLSearchParams(window.location.search)).get('pin')
+}
+
+//This function displays the room name
+//It uses a promise and cannot store values within the promise externally
+function displayRoomName() {
     const queryParameters = new URLSearchParams(window.location.search);
     const queryPin = queryParameters.get('pin')
     if(!queryPin) {
@@ -172,4 +178,3 @@ function gotoAddSong(){
     var pinCode = getPin();
     window.location.href = "/add_song.html?pin=" + pinCode; //check if host or not
 }
-

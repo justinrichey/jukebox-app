@@ -7,19 +7,25 @@
 
     var player;
     var display_container = document.getElementById("display_container");
+    var isNoVideo = true; //Keeps track of whether video is playing; ignores user pauses
 
     //Finds the youtube video and creates an iframe
     function getYouTube(vidID, nextSong) {
         //Case where there are no videos
         if(vidID == NO_VIDEO){
             display_container.innerHTML = `No songs in queue.`;
+            //If player has been created, stop the video
+            if (player) {
+                stopVideo();
+            }
+            isNoVideo = true;
             return;
         }
-
+        isNoVideo = false;
         //New song, so create a new iframe
         if(!nextSong){
             console.log("test"+ vidID);
-            display_container.innerHTML = `Currently Playing ...`;
+            display_container.textContent = `Currently Playing...`;
             player = new YT.Player('player', {
                 height: '390',
                 width: '640',
