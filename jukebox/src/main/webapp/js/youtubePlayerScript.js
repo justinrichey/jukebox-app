@@ -7,26 +7,23 @@
 
     var player;
     var display_container = document.getElementById("display_container");
-    var isVideoPlaying = true; //Keeps track of whether video is playing; ignores user pauses
+    var currVidID;
 
     //Finds the youtube video and creates an iframe
     function getYouTube(vidID, nextSong) {
         //Case where there are no videos
+        currVidID = vidID;
         if(vidID == NO_VIDEO){
             display_container.innerHTML = `No songs in queue.`;
             //If player has been created, stop the video
             if (player) {
                 stopVideo();
             }
-            isVideoPlaying = false;
             return;
         }
-        isVideoPlaying = true;
         display_container.textContent = `Currently Playing...`;
         //New song, so create a new iframe
         if(!nextSong){
-            console.log("test"+ vidID);
-            
             player = new YT.Player('player', {
                 height: '390',
                 width: '640',

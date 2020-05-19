@@ -3,45 +3,26 @@ const NO_VIDEO = -1;
 var db = firebase.firestore();
 
 //Grabs the current index in queue and increments it, increment is atomic
-function incrIndex(){
-    const room_ID = getPin();
-    const increment = firebase.firestore.FieldValue.increment(1);
-    console.log(increment);
-    return db.collection('rooms').doc(room_ID).update({
-        queueCounter: increment  
-    })
-}   
 
 //Adds a song to the queue
 async function addSongToDB(song_ID, title, thumbnailUrl) {
     const room_ID = getPin();
     var currQueue = db.collection('rooms').doc(room_ID).collection("queue");
-    var queueIndex = -1;
-    let test = await incrIndex();
-    db.collection('rooms').doc(room_ID).get().then(function(docSnapshot) {
-        console.log("new " + docSnapshot.data().queueCounter)
-        queueIndex =  docSnapshot.data().queueCounter;
-    });
+    
     db.collection('songs').doc(song_ID)
     .get()
     .then(function(querySnapshot) {
-        if(querySnapshot.exists){ //Song is already in database, just add to queue
-            currQueue.doc(song_ID).set({
-                SONG_ID: song_ID,
-                ROOM_ID: room_ID,
-                QUEUE_INDEX: queueIndex
-            });
-        } else {
+        if(!querySnapshot.exists){
             db.collection("songs").doc(song_ID).set( {
                 SONG_NAME: title,
                 THUMBNAIL_URL: thumbnailUrl
             });
-            currQueue.doc(song_ID).set({
-                SONG_ID: song_ID,
-                ROOM_ID: room_ID,
-                QUEUE_INDEX: queueIndex
-            });
         }
+        currQueue.doc(song_ID).set({
+            SONG_ID: song_ID,
+            ROOM_ID: room_ID,
+            QUEUE_INDEX: firebase.firestore.FieldValue.serverTimestamp()
+        });
     })
     .catch(function(error) {
         console.log("Error getting documents: ", error);

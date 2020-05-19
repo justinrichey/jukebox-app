@@ -20,14 +20,15 @@ db.collection('rooms').doc(getPin()).collection('queue')
             
             //If there is no video playing and the embedded player does not exist, then 
             //create an embedded player and play the newly added song
-            if (window.location.pathname == "/room_host.html" && !isVideoPlaying && player == null) {
+            if (window.location.pathname == "/room_host.html" && currVidID == NO_VIDEO && player == null) {
                 getYouTube(change.doc.data().SONG_ID, false);
 
             //If there is no video playing but player has been initialized
-            } else if (window.location.pathname == "/room_host.html" && !isVideoPlaying && player) {
+            } else if (window.location.pathname == "/room_host.html" && currVidID == NO_VIDEO && player) {
                 getYouTube(change.doc.data().SONG_ID, true);
             }
-            if (querySnapshot.length != 0 && querySnapshot.docs[0].data().QUEUE_INDEX != change.doc.data().QUEUE_INDEX) {
+            
+            if (querySnapshot.length != 0 && !querySnapshot.docs[0].data().QUEUE_INDEX.isEqual(change.doc.data().QUEUE_INDEX)) {
     
                 var numRows = document.getElementById("song_table").rows.length;
                 var newRow = document.getElementById("song_table").insertRow();
