@@ -21,10 +21,12 @@ db.collection('rooms').doc(getPin()).collection('queue')
             //If there is no video playing and the embedded player does not exist, then 
             //create an embedded player and play the newly added song
             if (window.location.pathname == "/room_host.html" && currVidID == NO_VIDEO && player == null) {
+                //pass in false to create embedded player
                 getYouTube(change.doc.data().SONG_ID, false);
 
             //If there is no video playing but player has been initialized
             } else if (window.location.pathname == "/room_host.html" && currVidID == NO_VIDEO && player) {
+                //pass in true to indicate player exists
                 getYouTube(change.doc.data().SONG_ID, true);
             }
             

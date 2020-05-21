@@ -11,7 +11,7 @@ function displayVideos(videos){
     if(videos.length > 0){
         //Loop through videos and append to output
         videos.forEach(vid =>{
-            const vid_title = checkSpecial(vid.snippet.title);
+            const vid_title = escapeSpecialCharacters(vid.snippet.title);
             const vid_thumbnail = vid.snippet.thumbnails.default.url;
             const vid_ID = vid.id.videoId;
 
@@ -34,7 +34,7 @@ function displayVideos(videos){
 }
 
 //Checks for special characters, if so, adds a backslash before
-function checkSpecial(givenTitle){
+function escapeSpecialCharacters(givenTitle){
     for(var index = 0; index < givenTitle.length;){
         var indexLoc = givenTitle.indexOf("&#39;", index);
         if(indexLoc == -1)

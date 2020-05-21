@@ -138,6 +138,7 @@ function createRoom() {
                 name: document.getElementById("group_name").value,
             })
             .then(function (groupCreatedRef) {
+                //The person creating the room is the host
                 db.collection("rooms").doc(pinCode).collection("users").doc(storedUid).set( {
                     isHost: true
                 })
