@@ -24,6 +24,17 @@ form {
     font-weight: lighter;
 }
 
+.desc_text {
+    align-content: center;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 20px;
+    font-family: sans-serif;
+    font-weight: lighter;
+    margin-left: 2em;
+    margin-right: 2em;
+}
+
 #add_song_text {
     margin-top: 0;
 }

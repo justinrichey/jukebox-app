@@ -21,7 +21,6 @@
             }
             return;
         }
-        display_container.textContent = `Currently Playing...`;
         //New song, so create a new iframe
         if(!nextSong){
             player = new YT.Player('player', {
@@ -41,6 +40,7 @@
     // Called when video is ready
     function onPlayerReady(event) {
         event.target.playVideo();
+        
     }
 
     var done = false;
@@ -50,6 +50,8 @@
         if(event.data == YT.PlayerState.ENDED){
             //This is very roundabout right now due to async calls, it first goes to database to grab id then comes back to display id in getYouTube method
             next_song();
+        } else if (event.data == YT.PlayerState.PLAYING) {
+            //display_container.innerHTML = `Currently playing <b>${player.getVideoData().title}</b>`;
         }
     }
 

@@ -1,8 +1,7 @@
 /**
-This file contains all database reads/writes as well some minor webpage
-modifications. It's most likely not secure to have the database available
-on the client-side, so this set-up is temporary (although will likely remain
-as apart of the MVP)
+This file contains all database reads/writes regarding room creation, 
+as well as functions related to navigating in/out of rooms. This client-side set-up is temporary 
+(although will likely remain as apart of the MVP)
  */
 
 //Setting up Firebase configuration

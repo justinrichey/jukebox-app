@@ -3,6 +3,7 @@
     <meta charset="UTF-8">
     <title>QBOX 🐈</title>
     <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/images/favicon.png"/>
     <link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@700&display=swap" rel="stylesheet">
     <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
@@ -12,22 +13,18 @@
   </head>
   <body onload="loadClient(); initializePinOverlay()">
     <nav class ="menu">
-        <ul class = "menu_selections">
-            <li class = "menu_item">
-                <a class="menu_text" id="logo" href="/index.html">QBOX</a>
-            </li>
-            <li class = "menu_item">
-                <a class="menu_text" href="/how_it_works.html">How it works</a>
-            </li>
-
-            <li class = "menu_item">
-                <a class="menu_text" onclick="gotoAddSong()">Add a Song</a>
-            </li>
-            <li class = "menu_item">
-                <a class="menu_text" onclick="viewPin()">View PIN</a>
-            </li>
-        </ul>
-    </nav>
+            <ul class = "menu_selections">
+                <li class = "menu_item" onclick="window.location.href='/index.html'">
+                    <a class="menu_text" id="logo">QBOX</a>
+                </li>
+                <li class = "menu_item" onclick="gotoAddSong()">
+                    <a class="menu_text">Add a Song</a>
+                </li>
+                <li class = "menu_item" onclick="viewPin()">
+                    <a class="menu_text">View PIN</a>
+                </li>
+	    	</ul>
+        </nav>
 
     <button onclick="navigateToRoom(true)" id="back_button">
         <span style="font-size:1.5em; color:#FFFFFF; font-weight: bold">Back to my room</span>
@@ -64,7 +61,7 @@
         <a href="javascript:void(0)" class="exit_pin" onclick="closePin()">&times;</a>
         <h2 id="overlay_pin"></h2>
     </div>
-    <script src="js/script.js"></script>
+    <script src="js/roomCreationAndNav.js"></script>
     <script src="js/dbScript.js"></script>
     <script src="js/gapiScript.js"></script>
     <script src="js/add_song.js"></script>

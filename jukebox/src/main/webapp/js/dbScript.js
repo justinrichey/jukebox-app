@@ -18,9 +18,10 @@ async function addSongToDB(song_ID, title, thumbnailUrl) {
                 THUMBNAIL_URL: thumbnailUrl
             });
         }
-        currQueue.doc(song_ID).set({
+        currQueue.add({
             SONG_ID: song_ID,
             ROOM_ID: room_ID,
+            SONG_NAME: title,
             QUEUE_INDEX: firebase.firestore.FieldValue.serverTimestamp()
         });
     })
@@ -38,7 +39,7 @@ function load_song(getNextSong){
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
             //Right before playing, delete the row to show that the song is no longer queued
-            deleteRow(doc.data().QUEUE_INDEX);
+            deleteRow(doc.id);
             vidId = doc.data().SONG_ID;
         });
         getYouTube(vidId, getNextSong);
@@ -58,7 +59,7 @@ function next_song(){
     .then(function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
             console.log(doc.id, " => ", doc.data());
-            new_song = doc.data().SONG_ID;
+            new_song = doc.id;
             console.log("Deleting " + new_song);
             doc.ref.delete().then(() => {
                 console.log("Document successfully deleted!"); //TODO: implement deleting for songs

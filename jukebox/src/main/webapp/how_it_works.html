@@ -1,0 +1,45 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>QBOX</title>
+        <link rel="stylesheet" href="/css/style.css">
+        <link rel="icon" type="image/png" href="/images/favicon.png"/>
+        <link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@700&display=swap" rel="stylesheet">
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+        <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script> 
+    </head>
+    <body >
+
+        <nav class ="menu">
+            <ul class = "menu_selections">
+                <li class = "menu_item">
+                    <a class="menu_text" id="logo" href="/index.html">QBOX</a>
+                </li>
+                <li class = "menu_item">
+                    <a class="menu_text" href="/how_it_works.html">How it works</a>
+                </li>
+	    	</ul>
+        </nav>
+        
+        <h3 class="setup_text"><b>What is QBOX?</b></h3>
+
+        <p class="desc_text">QBOX is like a digital jukebox. One person's device plays a queue of songs/videos chosen
+            by a group of people. Anyone with the host's pin code can join their room and add 
+            or remove songs from the queue. However, remember that only the host's device plays the songs! 
+            QBOX is perfect if you're connected to the AUX and your friends want to put some songs on.</p>
+
+        <h3 class="setup_text"><b>Want to be the host?</b></h3>
+
+        <p class="desc_text">Go ahead and create a room. You will be the host of the room you created, and then you
+            can share the pin with your friends!
+        </p>
+
+        <h3 class="setup_text"><b>Want to add songs to your friend's queue?</b></h3>
+
+        <p class="desc_text">Ask your friend for the pin. Then you can enter it to join their room!
+        </p>
+
+        <script src="/js/roomCreationAndNav.js"></script>
+    </body>
+</html>
