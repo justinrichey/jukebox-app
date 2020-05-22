@@ -31,23 +31,29 @@ firebase.auth().onAuthStateChanged(function(user) {
     if (user) {
         // User is signed in.
         localStorage['uid'] = user.uid
-    } 
-  })
+    }
+})
 
-  //This function is called upon loading the room, used to load data for display
-  function displayRoomData() {
+//This function is called upon loading the room, used to load data for display
+function displayRoomData() {
     const queryParameters = new URLSearchParams(window.location.search)
     const queryPin = queryParameters.get('pin')
     if(!queryPin) {
         window.location.href = '/general_error.html'
     }
     displayRoomName()
-    document.getElementById("overlay_pin").textContent = queryPin
-  }
+    initializePinOverlay()
+}
 
-  //This function displays the room name
-  //It uses a promise and cannot store values within the promise externally
-  function displayRoomName() {
+function initializePinOverlay() {
+    const queryParameters = new URLSearchParams(window.location.search)
+    document.getElementById("overlay_pin").textContent = 
+        (new URLSearchParams(window.location.search)).get('pin')
+}
+
+//This function displays the room name
+//It uses a promise and cannot store values within the promise externally
+function displayRoomName() {
     const queryParameters = new URLSearchParams(window.location.search);
     const queryPin = queryParameters.get('pin')
     if(!queryPin) {
@@ -131,10 +137,15 @@ function createRoom() {
             db.collection("rooms").doc(pinCode).set( {
                 name: document.getElementById("group_name").value,
             })
-            db.collection("rooms").doc(pinCode).collection("users").doc(storedUid).set( {
-                isHost: true
+            .then(function (groupCreatedRef) {
+                //The person creating the room is the host
+                db.collection("rooms").doc(pinCode).collection("users").doc(storedUid).set( {
+                    isHost: true
+                })
+                .then(function(userAddedRef) {
+                    window.location.href = "/create_pin.html?pin=" + pinCode;
+                })
             })
-            window.location.href = "/create_pin.html?pin=" + pinCode;
         }
     })
 }
@@ -168,4 +179,3 @@ function gotoAddSong(){
     var pinCode = getPin();
     window.location.href = "/add_song.html?pin=" + pinCode; //check if host or not
 }
-
