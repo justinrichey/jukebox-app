@@ -1,0 +1,19 @@
+{
+  "name": "js-service",
+  "version": "1.0.0",
+  "description": "QBOX Project for collaborative, realtime playlist creation.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Justin Richey",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "firebase": "^7.14.5",
+    "firebase-admin": "^8.12.1",
+    "google-auth-library": "^6.0.0",
+    "googleapis": "^51.0.0"
+  }
+}

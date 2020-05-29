@@ -1,0 +1,63 @@
+// Displays a list of videos resulting from search
+function displayVideos(videos){
+    //parse through data, create a list with the title being clickable leading to youtube video, and a button
+    var result_container = document.getElementById("result_container");
+    //Must create and replace tbody if user does multiple searches
+    var oldResultTbody = document.getElementById("result_tbody");
+    var newResultTbody = document.createElement('tbody');
+    if(videos.length > 0){
+        //Loop through videos and append to output
+        videos.forEach(vid =>{
+            const vid_title = escapeSpecialCharacters(vid.snippet.title);
+            const vid_thumbnail = vid.snippet.thumbnails.default.url;
+            const vid_ID = vid.id.videoId;
+
+            var newRow = newResultTbody.insertRow();
+            var tableSongName = newRow.insertCell(0);
+            var tableSongThumbnail = newRow.insertCell(1);
+            var tableAddButton = newRow.insertCell(2);
+
+            tableSongName.innerHTML = `<p>${vid.snippet.title}</p>`;
+            tableSongThumbnail.innerHTML = `<img src=${vid_thumbnail}>`
+            tableAddButton.innerHTML = 
+                `<button type="button" onclick="addSongToDB('${vid_ID}', '${vid_title}', '${vid_thumbnail}')" 
+                class="add_button">+</button>`;
+        })
+        oldResultTbody.parentNode.replaceChild(newResultTbody, oldResultTbody);
+        newResultTbody.id = "result_tbody";
+    } else {
+        result_container.innerHTML = `No Videos Found`;
+    }
+}
+
+//Checks for special characters, if so, adds a backslash before
+function escapeSpecialCharacters(givenTitle){
+    for(var index = 0; index < givenTitle.length;){
+        var indexLoc = givenTitle.indexOf("&#39;", index);
+        if(indexLoc == -1)
+            break;
+        console.log("contains \' at " + indexLoc);
+        givenTitle = givenTitle.substring(0, indexLoc) + "\\" + givenTitle.substring(indexLoc, givenTitle.length);
+        index += (indexLoc - index) + 2;
+        console.log("next starting " + index);
+    } 
+    return givenTitle;
+}
+
+//Search YouTube API for specified term
+function search_execute(){
+    const videos_displayed = 25;
+
+    var search_term = document.getElementById("search_term").value;
+
+    var request = $.ajax({
+        url: 'searchRequest',
+        type: 'GET',
+        data: $.param({term: search_term, numOfVids: videos_displayed})
+    });
+
+    request.done(function (data) {
+        
+        displayVideos(data);
+    })
+}

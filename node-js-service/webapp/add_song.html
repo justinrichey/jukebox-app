@@ -1,0 +1,70 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <title>QBOX 🐈</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="icon" type="image/png" href="/images/favicon.png"/>
+    <link href="https://fonts.googleapis.com/css2?family=Amaranth:wght@700&display=swap" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-firestore.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.14.1/firebase-auth.js"></script>
+    <script src="https://apis.google.com/js/api.js"></script>
+    
+  </head>
+  <body onload="initializePinOverlay()">
+    <nav class ="menu">
+            <ul class = "menu_selections">
+                <li class = "menu_item" onclick="window.location.href='/index.html'">
+                    <a class="menu_text" id="logo">QBOX</a>
+                </li>
+                <li class = "menu_item" onclick="gotoAddSong()">
+                    <a class="menu_text">Add a Song</a>
+                </li>
+                <li class = "menu_item" onclick="viewPin()">
+                    <a class="menu_text">View PIN</a>
+                </li>
+	    	</ul>
+        </nav>
+
+    <button onclick="navigateToRoom(true)" id="back_button">
+        <span style="font-size:1.5em; color:#FFFFFF; font-weight: bold">Back to my room</span>
+    </button>
+
+    <div class="input_area" id="search_input">
+        <p class="setup_text" id="add_song_text">Add a song!</p>
+        <form class="example" onsubmit="return false;">
+            <input type="text" placeholder="Search..." id="search_term">
+            <button type="submit" onclick ="search_execute()" id="search_button">
+                <img src="/images/searchsymbol.png" height="20" width="20" 
+                style="filter: invert(17%) sepia(13%) saturate(320%) hue-rotate(190deg) brightness(89%) contrast(83%);">
+            </button>
+        </form>
+        <br>
+    </div>
+
+    <div id="result_container"></div>
+    <table id="result_table">
+        <thead>
+            <tr>
+                <th class="table_header" style="text-align:left;">Songs</th>
+                <th></th>
+                <th class="table_header">Add to Queue</th>
+            </tr>
+        </thead>
+        <tbody id="result_tbody">
+            <tr>
+            </tr>
+        </tbody>
+    </table>
+
+    <div id="view_pin" class="overlay">
+        <a href="javascript:void(0)" class="exit_pin" onclick="closePin()">&times;</a>
+        <h2 id="overlay_pin"></h2>
+    </div>
+    <script src="js/roomCreationAndNav.js"></script>
+    <script src="js/dbScript.js"></script>
+    <script src="js/add_song.js"></script>
+    
+  </body>
+</html>
